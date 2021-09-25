@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './transaction.dart';
 
 void main() {
   runApp(const MyExpenseApp());
@@ -15,33 +16,81 @@ class MyExpenseApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyExpensePage(title: 'Expense App Page'),
+      home: MyExpensePage(),
     );
   }
 }
 
-class MyExpensePage extends StatefulWidget {
-  const MyExpensePage({Key? key, required this.title}) : super(key: key);
+class MyExpensePage extends StatelessWidget {
+  MyExpensePage({Key? key}) : super(key: key);
 
-  final String title;
+  List<Transaction> transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'First Transaction',
+      amount: 17.25,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Second Transaction',
+      amount: 15.25,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T3',
+      title: 'Third Transaction',
+      amount: 25.87,
+      date: DateTime.now(),
+    ),
+  ];
 
-  @override
-  State<MyExpensePage> createState() => _MyExpensePageState();
-}
-
-class _MyExpensePageState extends State<MyExpensePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Flutter App'),
       ),
-      body: Center(
-        child: Text(
-          'Widget Playground',
-          style: Theme.of(context).textTheme.headline4,
-        ),
-      ),
+      body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Card(
+                child: Text('CHART'),
+                elevation: 5,
+                color: Colors.blue,
+              ),
+            ),
+            Card(
+              elevation: 5,
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Title'),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Amount'),
+                      ),
+                      FlatButton(
+                          child: Text('Add Transaction'),
+                          textColor: Colors.purple,
+                          onPressed: () =>
+                              {print("I have tried to add a transaction")}),
+                    ]),
+              ),
+            ),
+            Column(
+              children: transactions.map((tx) {
+                return tx.asWidget();
+              }).toList(),
+            ),
+          ]),
     );
   }
 }
