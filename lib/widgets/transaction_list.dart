@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../models/transaction.dart';
 
-class Transaction {
-  final String id;
-  final String title;
-  final double amount;
-  final DateTime date;
+class TransactionList extends StatelessWidget {
+  final List<Transaction> transactions;
+  TransactionRowBuilder builder = TransactionRowBuilder();
 
-  Transaction({
-    required this.id,
-    required this.title,
-    required this.amount,
-    required this.date,
-  });
+  TransactionList(this.transactions);
 
-  String dateAsString() {
-    return DateFormat.yMd().add_jm().format(date);
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: transactions.map((tx) {
+          return builder.build(tx);
+        }).toList(),
+      ),
+    );
   }
+}
 
-  Widget asWidget() {
+class TransactionRowBuilder {
+  TransactionRowBuilder();
+
+  Widget build(Transaction tx) {
     return Row(children: [
       Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -28,7 +32,7 @@ class Transaction {
         ),
         padding: EdgeInsets.all(8),
         child: Text(
-          '\$${amount}',
+          '\$${tx.amount}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -38,7 +42,7 @@ class Transaction {
       Column(
         children: [
           Text(
-            title,
+            tx.title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -47,7 +51,7 @@ class Transaction {
             ),
           ),
           Text(
-            dateAsString(),
+            tx.dateAsString(),
             textAlign: TextAlign.left,
             style: TextStyle(
                 fontWeight: FontWeight.normal,
