@@ -11,26 +11,23 @@ class UserTransactions extends StatefulWidget {
 }
 
 class _UserTransactionsState extends State<UserTransactions> {
-  List<Transaction> transactions = [
-    Transaction(
-      id: 'T1',
-      title: 'First Transaction',
-      amount: 17.25,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'T2',
-      title: 'Second Transaction',
-      amount: 15.25,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'T3',
-      title: 'Third Transaction',
-      amount: 25.87,
-      date: DateTime.now(),
-    ),
-  ];
+  List<Transaction> transactions = List<Transaction>.generate(100, (i) {
+    if (i == 0) {
+      return Transaction(
+        id: 'T-Start',
+        title: 'Transaction-S',
+        amount: 0.34,
+        date: DateTime.now(),
+      );
+    } else {
+      return Transaction(
+        id: 'T$i',
+        title: 'Transaction$i',
+        amount: i * 1.34,
+        date: DateTime.now(),
+      );
+    }
+  });
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(

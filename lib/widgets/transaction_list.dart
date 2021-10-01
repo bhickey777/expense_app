@@ -9,11 +9,15 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: transactions.map((tx) {
-          return builder.build(tx);
-        }).toList(),
+    return Container(
+      //list view needs a constainer to constrain height
+      height: 400,
+      child: ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (ctx, index) {
+          Transaction tx = transactions.elementAt(index);
+          return builder.build(ctx, tx);
+        },
       ),
     );
   }
@@ -22,7 +26,7 @@ class TransactionList extends StatelessWidget {
 class TransactionRowBuilder {
   TransactionRowBuilder();
 
-  Widget build(Transaction tx) {
+  Widget build(BuildContext context, Transaction tx) {
     return Row(children: [
       Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -32,7 +36,7 @@ class TransactionRowBuilder {
         ),
         padding: EdgeInsets.all(8),
         child: Text(
-          '\$${tx.amount}',
+          '\$${tx.amount.toStringAsFixed(2)}',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

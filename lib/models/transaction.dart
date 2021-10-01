@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class Transaction {
   final String id;
@@ -15,5 +16,10 @@ class Transaction {
 
   String dateAsString() {
     return DateFormat.yMd().add_jm().format(date);
+  }
+
+  double roundAmountAsCurrency() {
+    num mod = pow(10.0, 2);
+    return ((amount * mod).round().toDouble() / mod);
   }
 }
